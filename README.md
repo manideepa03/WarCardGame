@@ -1,5 +1,7 @@
 # WarCardGame
-War Game Rules:  https://en.wikipedia.org/wiki/War_(card_game).
+
+War Game Rules: https://en.wikipedia.org/wiki/War_(card_game).
+
 ## Assumptions
 
 ```
@@ -13,12 +15,17 @@ War Game Rules:  https://en.wikipedia.org/wiki/War_(card_game).
     - 1 winner: player that has all the cards
     - Console output
 
+3. Corner cases:
+    - Play the game until one of the player runs of cards in the hand
+    - Empty the table and war cards list after every round
+    - When both the players place the same rank card, war is started
+
 ```
 
 ## Technologies
 
-- Install the following
-  **Core**
+Install the following
+**Core**
 
 - Python
 - Pip
