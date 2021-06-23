@@ -2,6 +2,7 @@ import random
 
 
 class Card:
+    """Represents all the cards in the game"""
 
     def __init__(self):
         self.suits = ['Heart', 'Diamond', 'Spade', 'Club']
@@ -9,36 +10,64 @@ class Card:
         self.deckCards = []
 
     def deck(self):
+        """Creates a new deck of 52 cards
+
+        Returns:
+            deckCards: list of all the cards
+        """
         self.deckCards = [(suit, rank)
                           for suit in self.suits for rank in self.ranks]
 
         return self.deckCards
 
     def shuffle(self):
+        """Random shuffling of deck cards"""
         random.shuffle(self.deckCards)
 
     def split_cards(self):
+        """Splits the 52 deck of cards into 2 halfs
+
+        Returns:
+            list: Two lists with 26 cards in each
+        """
         return (self.deckCards[:26], self.deckCards[26:])
 
 
 class Player:
+
+    """Represents a player with name and cards the player has"""
+
     def __init__(self, player):
         self.player = player
         self.hand = None
+        if not isinstance(player, str):
+            raise TypeError("please enter a string")
 
     def show_card(self):
+        """Returns top card on the player's deck """
         return self.hand.pop(0)
 
     def take_card(self, taken):
+        """adds the cards at bottom of player's deck """
         self.hand.extend(taken)
 
 
 class Table:
+    """Represents the cards present on the table"""
+
     def __init__(self):
         self.tableCards = []
         self.warCards = []
 
     def war_cards(self, warhand):
+        """ Takes the cards in player hand and returns top three cards 
+
+        Args:
+            warhand (list): List of cards in player hand
+
+        Returns:
+            list: top three cards from the players hand
+        """
         self.warCards = []
         if len(warhand) < 3:
             return warhand
@@ -50,6 +79,9 @@ class Table:
 
 
 class Game:
+
+    """ Represents all the actions in the game"""
+
     def __init__(self, player1, player2):
         self.p1cards = None
         self.p2cards = None
@@ -59,6 +91,7 @@ class Game:
         self.card = Card()
 
     def give_cards(self):
+        """ Gives the cards equally to two players"""
         self.card.deck()
         self.card.shuffle()
 
@@ -71,21 +104,26 @@ class Game:
         print(self.p2.player, "'s cards =============\n")
         print(self.p2.hand)
         print("\n")
-        exit()
 
     def war_mode(self):
+        """ Gets the top 3 cards from the each player and adds it to the deck of cards on the table"""
 
         self.table.tableCards.extend(self.table.war_cards(self.p1.hand))
         self.table.tableCards.extend(self.table.war_cards(self.p2.hand))
 
     def winner(self):
+        """Determines which player is the winner of the game
+        """
         if len(self.p1.hand) != 0:
             print(self.p1.player, 'Wins the Game')
+            return self.p1.player + 'wins the game '
 
         else:
             print(self.p2.player, 'Wins the Game')
+            return self.p2.player + 'wins the game '
 
     def play_game(self):
+        """ Plays the game until one of the player has no cards"""
 
         self.round_count = 0
 
@@ -132,6 +170,8 @@ class Game:
 
 
 def main():
+    """Runs the main loop of the game
+    """
     print("Welcome to the War Card Game")
 
     player1 = input("Enter Player 1 Name :")
