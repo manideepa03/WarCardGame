@@ -11,6 +11,7 @@ class Card:
     def deck(self):
         self.deckCards = [(suit, rank)
                           for suit in self.suits for rank in self.ranks]
+        print("deckCards", len(self.deckCards))
         return self.deckCards
 
     def shuffle(self):
@@ -37,12 +38,14 @@ class Table:
         self.tableCards = []
         self.warCards = []
 
-    def war_cards(self, hand):
-        if len(hand) < 3:
-            return hand
+    def war_cards(self, warhand):
+        self.warCards = []
+        if len(warhand) < 3:
+            return warhand
         else:
             for i in range(3):
-                self.warCards.append(hand.pop(0))
+                self.warCards.append(warhand.pop(0))
+
             return self.warCards
 
 
@@ -70,14 +73,9 @@ class Game:
         print("\n")
 
     def war_mode(self):
-        p1warcards = None
-        p2warcards = None
-        p1warcards = self.table.war_cards(self.p1.hand)
-        p2warcards = self.table.war_cards(self.p2.hand)
 
-        self.table.tableCards.extend(p1warcards)
-        self.table.tableCards.extend(p2warcards)
-        return self.table.tableCards
+        self.table.tableCards.extend(self.table.war_cards(self.p1.hand))
+        self.table.tableCards.extend(self.table.war_cards(self.p2.hand))
 
     def winner(self):
         if len(self.p1.hand) != 0:
@@ -92,11 +90,11 @@ class Game:
 
         while len(self.p1.hand) != 0 and len(self.p2.hand) != 0:
             self.round_count += 1
-
-            print("New round")
+            print("\n")
+            print("New round number", self.round_count)
             print("Here are the current standings")
-            print(self.p1.player + " has the count:"+str(len(self.p1.hand)))
-            print(self.p2.player + " has the count:"+str(len(self.p2.hand)))
+            print(self.p1.player + " has the count:", len(self.p1.hand))
+            print(self.p2.player + " has the count:", len(self.p2.hand))
             print("Play a card!")
             print("\n")
 
@@ -114,7 +112,7 @@ class Game:
             self.table.tableCards.append(self.p2card)
 
             if self.p1card[1] == self.p2card[1]:
-                print("War has started")
+                print("===============War has started====================")
                 self.war_mode()
 
                 if self.card.ranks.index(self.p1card[1]) < self.card.ranks.index(self.p2card[1]):
@@ -128,8 +126,7 @@ class Game:
                     self.p1.take_card(self.table.tableCards)
                 else:
                     self.p2.take_card(self.table.tableCards)
-            # if self.round_count == 2:
-            #     exit()
+
         self.winner()
 
 
