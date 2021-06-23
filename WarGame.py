@@ -11,7 +11,7 @@ class Card:
     def deck(self):
         self.deckCards = [(suit, rank)
                           for suit in self.suits for rank in self.ranks]
-        print("deckCards", len(self.deckCards))
+
         return self.deckCards
 
     def shuffle(self):
@@ -71,6 +71,7 @@ class Game:
         print(self.p2.player, "'s cards =============\n")
         print(self.p2.hand)
         print("\n")
+        exit()
 
     def war_mode(self):
 
